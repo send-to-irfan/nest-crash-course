@@ -16,22 +16,31 @@ export class BookService {
   // update
 
   updateBook(book: Book): string {
-    const index = this.books.findIndex((index) => {
-      return index.id === book.id;
-    });
+    const index = this.books.findIndex(
+      (existingBook) => existingBook.id === book.id,
+    );
 
-    this.books[index] = book;
-    return 'Book updated successfully';
+    if (index !== -1) {
+      this.books[index] = { ...this.books[index], ...book };
+      return 'Book updated successfully';
+    } else {
+      return 'Book not found';
+    }
   }
+
   // Delete
 
   deleteBook(bookId: string): string {
-    this.books = this.books.filter((index) => {
-      return index.id != bookId;
-    });
+    const bookIndex = this.books.findIndex((book) => book.id === bookId);
 
-    return 'book deleted succesfully';
+    if (bookIndex !== -1) {
+      this.books = this.books.filter((book, index) => index !== bookIndex);
+      return 'Book deleted successfully';
+    } else {
+      return 'Book not found';
+    }
   }
+
   // Get All
 
   findAllBooks(): Book[] {
