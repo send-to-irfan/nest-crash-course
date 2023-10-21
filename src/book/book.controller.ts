@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common/decorators';
 import { BookService } from './book.service';
 import { Book } from './data/book.dto';
-import { v4 as uuidv4 } from 'uuid';
+
 
 @Controller('book')
 export class BookController {
