@@ -36,4 +36,9 @@ export class BookController {
   ): Promise<string> {
     return this.BookService.update(id, book);
   }
+
+  @Get('get/:id')
+  async getBook(@Param('id') id: string): Promise<Book> {
+    return this.BookService.getBoot(id);
+  }
 }
