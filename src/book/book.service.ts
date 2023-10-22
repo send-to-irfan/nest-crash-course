@@ -14,4 +14,39 @@ export class BookService {
   async create(book: Book): Promise<Book> {
     return this.bookRepository.save(book);
   }
+
+  async getAll(): Promise<Book[]> {
+    return this.bookRepository.find();
+  }
+
+  async delete(id: string): Promise<string> {
+    // Check if the book with the given ID exists
+    const bookToDelete = await this.bookRepository.findOne({ where: { id } });
+
+    if (!bookToDelete) {
+      return 'No book available with the specified ID';
+    }
+
+    // If the book exists, delete it
+    await this.bookRepository.remove(bookToDelete);
+
+    return 'Book Deleted Successfully.';
+  }
+
+  async update(id: string, updatedFields: Partial<Book>): Promise<string> {
+    // Find the book to update by its ID
+    const bookToUpdate = await this.bookRepository.findOne({ where: { id } });
+
+    if (!bookToUpdate) {
+      return 'No book available with the specified ID';
+    }
+
+    // Update only the specified fields
+    Object.assign(bookToUpdate, updatedFields);
+
+    // Save the updated book
+    await this.bookRepository.save(bookToUpdate);
+
+    return 'Book Updated Successfully.';
+  }
 }
